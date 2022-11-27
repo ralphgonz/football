@@ -17,17 +17,18 @@ my %p = getColPos();
 my $prevDate;
 while (my @fields = getFields()) {
   next if ($fields[$p{schedule_playoff}] eq "TRUE");
+  
+  my $homeTeam = $fields[$p{team_home}];
+  my $awayTeam = $fields[$p{team_away}];
+  my $homeScore = $fields[$p{score_home}];
+  my $awayScore = $fields[$p{score_away}];
+  next if (!$homeScore && !$awayScore);
 
   my $date = $fields[$p{schedule_date}];
   if ($date ne $prevDate) {
     print STDERR "$date...\n";
     $prevDate = $date;
   }
-  
-  my $homeTeam = $fields[$p{team_home}];
-  my $awayTeam = $fields[$p{team_away}];
-  my $homeScore = $fields[$p{score_home}];
-  my $awayScore = $fields[$p{score_away}];
 
   my $homeRunLength = $teamRunLength{$homeTeam} || 0;
   my $awayRunLength = $teamRunLength{$awayTeam} || 0;
